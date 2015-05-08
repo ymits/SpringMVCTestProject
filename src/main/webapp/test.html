@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="US-ASCII">
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-2.1.4.js" ></script>
+<body>
+<button id="find">find</button><Br>
+<button id="findOne">findOne</button><Br>
+<button id="create">create</button><Br>
+<script>
+var _data;
+$("#find").click(function(){
+	$.get("api/test").done(function(data){
+		console.log(data);
+	});
+});
+$("#findOne").click(function(){
+	$.get("api/test/aaa").done(function(data){
+		console.log(data);
+		_data = data;
+	});
+});
+$("#create").click(function(){
+	$.ajax({
+		url:"api/test", 
+		type:"PUT",
+		data:JSON.stringify(_data), 
+		contentType: "application/json; charset=utf-8",
+		dataType: "json"});
+});
+</script>
+</body>
+</html>
