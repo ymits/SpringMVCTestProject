@@ -4,20 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -25,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.GET)
     public List<Test> index(
     		@RequestParam(value = "keyStr", required = false) String keyStr,
@@ -44,6 +38,7 @@ public class TestController {
 		return results;
     }
 	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Test show(@PathVariable String id) {
         return new Test();

@@ -9,6 +9,11 @@
 <button id="find">find</button><Br>
 <button id="findOne">findOne</button><Br>
 <button id="create">create</button><Br>
+<form>
+	<label for="username">Username: </label><input id="username" name="username"><br/>
+	<label for="password">Password:</label><input id="password" name="password"><br/>
+	<button type="button" id="login">Login!</button>
+</form>
 <script>
 var _data;
 $("#find").click(function(){
@@ -29,6 +34,25 @@ $("#create").click(function(){
 		data:JSON.stringify(_data), 
 		contentType: "application/json; charset=utf-8",
 		dataType: "json"});
+});
+$('#login').click(function (event) {
+	event.preventDefault();
+	//var data = 'j_username=' + $('#username').val() + '&j_password=' + $('#password').val();
+	var data = {
+			username:$('#username').val(),
+			password:$('#password').val()
+	};
+	$.ajax({
+		data: data,
+		timeout: 1000,
+		type: 'POST',
+		url: 'api/session'
+
+	}).done(function(data, textStatus, jqXHR) {
+		console.log("authentication success");
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("authentication fail");
+	});
 });
 </script>
 </body>
