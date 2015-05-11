@@ -10,10 +10,7 @@
 		<sec:csrf disabled="true"/>
 		<sec:intercept-url pattern="/api/**" />
 		<sec:form-login 
-			authentication-success-handler-ref="restAuthenticationSuccessHandler"
-			login-processing-url="/api/session"
-			username-parameter="username"
-			password-parameter="password" />
+			authentication-success-handler-ref="restAuthenticationSuccessHandler"/>
 	</sec:http>
 
 	<!-- Authentication manager -->
