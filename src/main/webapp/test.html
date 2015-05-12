@@ -9,6 +9,8 @@
 <button id="find">find</button><Br>
 <button id="findOne">findOne</button><Br>
 <button id="create">create</button><Br>
+<button id="error">error</button><Br>
+<button id="async">async</button><Br>
 <form>
 	<label for="username">Username: </label><input id="username" name="username"><br/>
 	<label for="password">Password:</label><input id="password" name="password"><br/>
@@ -22,12 +24,16 @@ var _data;
 $("#find").click(function(){
 	$.get("api/test").done(function(data){
 		console.log(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("fail:" + textStatus);
 	});
 });
 $("#findOne").click(function(){
 	$.get("api/test/aaa").done(function(data){
 		console.log(data);
 		_data = data;
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("fail:" + textStatus);
 	});
 });
 $("#create").click(function(){
@@ -36,7 +42,23 @@ $("#create").click(function(){
 		type:"PUT",
 		data:JSON.stringify(_data), 
 		contentType: "application/json; charset=utf-8",
-		dataType: "json"});
+		dataType: "json"}).fail(function(jqXHR, textStatus, errorThrown) {
+			console.log("fail:" + textStatus);
+		});
+});
+$("#error").click(function(){
+	$.get("api/test/error/error").done(function(data){
+		console.log(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("fail:" + textStatus);
+	});
+});
+$("#async").click(function(){
+	$.get("api/test/async/get").done(function(data){
+		console.log(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("fail:" + textStatus);
+	});
 });
 $('#login').click(function (event) {
 	event.preventDefault();
