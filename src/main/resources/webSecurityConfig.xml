@@ -7,10 +7,9 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- Rest authentication entry point configuration -->
 	<sec:http use-expressions="true" auto-config="true">
-		<sec:csrf disabled="true"/>
+		<sec:csrf disabled="true" />
 		<sec:intercept-url pattern="/api/**" />
-		<sec:form-login 
-			authentication-success-handler-ref="restAuthenticationSuccessHandler"/>
+		<sec:form-login authentication-success-handler-ref="restAuthenticationSuccessHandler" />
 	</sec:http>
 
 	<!-- Authentication manager -->
@@ -26,4 +25,9 @@
 	<!-- Enable the annotations for defining the secure role -->
 	<sec:global-method-security
 		secured-annotations="enabled" />
+
+	<!-- <bean id="springSessionRepositoryFilter" class="org.springframework.session.web.http.SessionRepositoryFilter"> 
+		<constructor-arg name="sessionRepository" ref="sessionRepository"/> <property 
+		name="servletContext" ref="servletContext" /> </bean> -->
+
 </beans>
