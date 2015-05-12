@@ -1,7 +1,5 @@
 ■プロトタイプjava
 初期化
 spring websocket(全体、個人)
-spring security
-spring session
-非同期リクエスト
-java1.8にあげる
+spring session(タイムアウト処理)
+java1.8にあげる(tomcat8 + servlet 3.0)

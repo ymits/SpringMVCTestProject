@@ -3,6 +3,7 @@ package my.cool.app;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 
 @RestController
@@ -53,6 +55,20 @@ public class TestController {
 	@RequestMapping(value="/error/error", method = RequestMethod.GET)
     public Test showError() {
 		throw new RuntimeException();
+    }
+	
+	@RequestMapping(value="/async/get", method = RequestMethod.GET)
+    public DeferredResult<Test> asyncGet() {
+		final DeferredResult<Test> dfd = new DeferredResult<>();
+		Executors.newSingleThreadExecutor().execute(new Runnable(){
+
+			@Override
+			public void run() {
+				dfd.setResult(new Test());
+			}
+			
+		});
+		return dfd;
     }
 
 }
