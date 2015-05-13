@@ -2,4 +2,5 @@
 初期化
 spring websocket(全体、個人)
 spring session(タイムアウト処理)
+api document
 java1.8にあげる(tomcat8 + servlet 3.0)
