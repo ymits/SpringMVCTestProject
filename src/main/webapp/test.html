@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="US-ASCII">
+<meta charset="utf-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery-2.1.4.js" ></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
 </head>
-<script src="https://code.jquery.com/jquery-2.1.4.js" ></script>
+
 <body>
-<button id="find">find</button><Br>
-<button id="findOne">findOne</button><Br>
-<button id="create">create</button><Br>
-<button id="error">error</button><Br>
-<button id="async">async</button><Br>
-<form>
-	<label for="username">Username: </label><input id="username" name="username"><br/>
-	<label for="password">Password:</label><input id="password" name="password"><br/>
-	<button type="button" id="login">Login!</button>
-</form>
-<form>
-	<button type="button" id="logout">Logout!</button>
-</form>
+
+<div class="panel panel-default">
+  <div class="panel-heading">ログイン・ログアウト</div>
+  <div class="panel-body">
+    <form>
+		<label for="username">Username: </label><input id="username" name="username"><br/>
+		<label for="password">Password:</label><input id="password" name="password"><br/>
+		<button id="login" class="btn btn-default">Login!</button>
+		<button id="logout" class="btn btn-default">Logout!</button>
+	</form>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">TestControllerへのアクセス</div>
+  <div class="panel-body">
+    <button id="find" class="btn btn-default">find</button>
+	<button id="findOne" class="btn btn-default">findOne</button>
+	<button id="create" class="btn btn-default">create</button>
+	<button id="error" class="btn btn-default">error</button>
+	<button id="async" class="btn btn-default">async</button>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">WebSocketへのアクセス</div>
+  <div class="panel-body">
+    <div id="log"></div>
+	  <form>
+	    <input type="text" id="message" /> <button id="send" class="btn btn-default">送信</button>
+	  </form>
+  </div>
+</div>
 <script>
 var _data;
 $("#find").click(function(){
@@ -69,10 +93,8 @@ $('#login').click(function (event) {
 	};
 	$.ajax({
 		data: data,
-		timeout: 1000,
 		type: 'POST',
 		url: 'login'
-
 	}).done(function(data, textStatus, jqXHR) {
 		console.log("authentication success");
 	}).fail(function(jqXHR, textStatus, errorThrown) {
@@ -83,15 +105,31 @@ $('#logout').click(function (event) {
 	event.preventDefault();
 	//var data = 'j_username=' + $('#username').val() + '&j_password=' + $('#password').val();
 	$.ajax({
-		timeout: 1000,
 		type: 'GET',
 		url: 'logout'
-
 	}).done(function(data, textStatus, jqXHR) {
 		console.log("logout success");
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		console.log("logout fail");
 	});
+});
+
+//var ws = new WebSocket("ws://localhost:8080/app/api/echo");
+var ws = new SockJS("http://localhost:8080/app/api/echo");
+ws.onopen = function(){
+};
+ws.onclose = function(){
+};
+ws.onmessage = function(message){
+  $("#log").append(message.data).append("<br/>");
+  $("#message").val("")
+};
+ws.onerror = function(event){
+  alert("エラー");
+};
+$("#send").click(function(){
+  ws.send($("#message").val());
+  return false;
 });
 </script>
 </body>
