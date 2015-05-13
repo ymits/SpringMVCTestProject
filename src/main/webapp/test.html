@@ -7,6 +7,7 @@
 <script src="//code.jquery.com/jquery-2.1.4.js" ></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 </head>
 
 <body>
@@ -35,11 +36,21 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">WebSocketへのアクセス</div>
+  <div class="panel-heading">Simple WebSocketへのアクセス</div>
   <div class="panel-body">
     <div id="log"></div>
 	  <form>
 	    <input type="text" id="message" /> <button id="send" class="btn btn-default">送信</button>
+	  </form>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">stomp WebSocketへのアクセス</div>
+  <div class="panel-body">
+    <div id="stomp-log"></div>
+	  <form>
+	    <input type="text" id="stomp-message" /> <button id="stomp-send" class="btn btn-default">送信</button>
 	  </form>
   </div>
 </div>
@@ -115,7 +126,7 @@ $('#logout').click(function (event) {
 });
 
 //var ws = new WebSocket("ws://localhost:8080/app/api/echo");
-var ws = new SockJS("http://localhost:8080/app/api/echo");
+var ws = new SockJS("/app/api/echo");
 ws.onopen = function(){
 };
 ws.onclose = function(){
@@ -130,6 +141,19 @@ ws.onerror = function(event){
 $("#send").click(function(){
   ws.send($("#message").val());
   return false;
+});
+var socket = new SockJS('/app/api/notification');
+var stompClient = Stomp.over(socket);
+stompClient.connect({}, function(frame) {
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/topic/testfeed', function(test){
+    	console.log(test);
+    	$("#stomp-log").append(test.body).append("<br/>");
+    });
+});
+$("#stomp-send").click(function(){
+	stompClient.send("/api/test", {}, JSON.stringify(_data));
+  	return false;
 });
 </script>
 </body>

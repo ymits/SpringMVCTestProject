@@ -1,6 +1,6 @@
 ■プロトタイプjava
 初期化
-spring websocket(個人)
+spring websocket(model配信、個人配信)
 spring session(タイムアウト処理)
-websocketを含めたsession管理
+websocketを含めたsession管理(リアルレートの認証制御とsession破棄時のsocket切断)
 java1.8にあげる(tomcat8 + servlet 3.0)
