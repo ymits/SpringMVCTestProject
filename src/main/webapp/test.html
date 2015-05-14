@@ -36,26 +36,18 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Simple WebSocketへのアクセス</div>
-  <div class="panel-body">
-    <div id="log"></div>
-	  <form>
-	    <input type="text" id="message" /> <button id="send" class="btn btn-default">送信</button>
-	  </form>
-  </div>
-</div>
-
-<div class="panel panel-default">
   <div class="panel-heading">stomp WebSocketへのアクセス</div>
   <div class="panel-body">
+  	<button id="connect-btn" class="btn btn-default">接続</button>
+  	<button id="disconnect-btn" class="btn btn-default">切断</button><br>
+    <button id="no-secure-send-btn" class="btn btn-default">no-secure-送信</button>
+    <button id="secure-send-btn" class="btn btn-default">secure-送信</button>
+    <button id="user-send-btn" class="btn btn-default">個人-送信</button>
     <div id="stomp-log"></div>
-	  <form>
-	    <input type="text" id="stomp-message" /> <button id="stomp-send" class="btn btn-default">送信</button>
-	  </form>
   </div>
 </div>
 <script>
-var _data;
+var _data = {"valueInt":1,"valueBoolean":true,"valueDate":1431583886542,"valueEnum":"VALUE2"};
 $("#find").click(function(){
 	$.get("api/test").done(function(data){
 		console.log(data);
@@ -125,34 +117,38 @@ $('#logout').click(function (event) {
 	});
 });
 
-//var ws = new WebSocket("ws://localhost:8080/app/api/echo");
-var ws = new SockJS("/app/api/echo");
-ws.onopen = function(){
-};
-ws.onclose = function(){
-};
-ws.onmessage = function(message){
-  $("#log").append(message.data).append("<br/>");
-  $("#message").val("")
-};
-ws.onerror = function(event){
-  alert("エラー");
-};
-$("#send").click(function(){
-  ws.send($("#message").val());
-  return false;
+// start stomp websocket
+var stompClient;
+$("#connect-btn").click(function(){
+	var socket = new SockJS('/app/api/notification');
+	stompClient = Stomp.over(socket);
+	stompClient.connect({}, function(frame) {
+	    console.log('Connected: ' + frame.headers['user-name']);
+	    stompClient.subscribe('/topic/result', function(test){
+	    	console.log(test);
+	    	$("#stomp-log").append(test.body).append("<br/>");
+	    });
+	    stompClient.subscribe('/user/queue/user-test', function(test){
+	    	console.log(test);
+	    	$("#stomp-log").append(test.body).append("<br/>");
+	    });
+	});
 });
-var socket = new SockJS('/app/api/notification');
-var stompClient = Stomp.over(socket);
-stompClient.connect({}, function(frame) {
-    console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/testfeed', function(test){
-    	console.log(test);
-    	$("#stomp-log").append(test.body).append("<br/>");
-    });
+$("#disconnect-btn").click(function(){
+	if (stompClient != null) {
+        stompClient.disconnect();
+    }
 });
-$("#stomp-send").click(function(){
-	stompClient.send("/api/test", {}, JSON.stringify(_data));
+$("#no-secure-send-btn").click(function(){
+	stompClient.send("/api/no-secure-test", {}, JSON.stringify(_data));
+  	return false;
+});
+$("#secure-send-btn").click(function(){
+	stompClient.send("/api/secure-test", {}, JSON.stringify(_data));
+  	return false;
+});
+$("#user-send-btn").click(function(){
+	stompClient.send("/api/user-test", {}, JSON.stringify(_data));
   	return false;
 });
 </script>

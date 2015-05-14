@@ -17,7 +17,7 @@
 		<sec:authentication-provider>
 			<sec:user-service>
 				<sec:user name="admin" password="admin" authorities="ROLE_ADMIN" />
-				<sec:user name="user" password="userPass" authorities="ROLE_USER" />
+				<sec:user name="user" password="user" authorities="ROLE_USER" />
 			</sec:user-service>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
