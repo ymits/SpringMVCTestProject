@@ -43,7 +43,10 @@
     <button id="no-secure-send-btn" class="btn btn-default">no-secure-送信</button>
     <button id="secure-send-btn" class="btn btn-default">secure-送信</button>
     <button id="user-send-btn" class="btn btn-default">個人-送信</button>
-    <div id="stomp-log"></div>
+    
+    <div id="public-log" style="height:100px; overflow:auto; background-color:#ff0000;"></div>
+    <div id="private-log" style="height:100px; overflow:auto; background-color:#00ff00;"></div>
+    <div id="stomp-log" style="height:100px; overflow:auto; background-color:#0000ff;"></div>
   </div>
 </div>
 <script>
@@ -125,12 +128,16 @@ $("#connect-btn").click(function(){
 	stompClient.connect({}, function(frame) {
 	    console.log('Connected: ' + frame.headers['user-name']);
 	    stompClient.subscribe('/topic/result', function(test){
-	    	console.log(test);
-	    	$("#stomp-log").append(test.body).append("<br/>");
+	    	$("#stomp-log").prepend("<br/>").prepend(new Date().toString() + " : " + test.body);
 	    });
 	    stompClient.subscribe('/user/queue/user-test', function(test){
-	    	console.log(test);
-	    	$("#stomp-log").append(test.body).append("<br/>");
+	    	$("#stomp-log").prepend("<br/>").prepend(new Date().toString() + " : " + test.body);
+	    });
+	    stompClient.subscribe("/topic/price.stock.*", function(test) {
+	    	$("#public-log").prepend("<br/>").prepend(new Date().toString() + " : " + test.body);
+	    });
+	    stompClient.subscribe("/user/queue/trade", function(test) {
+	    	$("#private-log").prepend("<br/>").prepend(new Date().toString() + " : " + test.body);
 	    });
 	});
 });
