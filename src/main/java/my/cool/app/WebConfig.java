@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @ComponentScan("my.cool.app")
 @EnableWebMvc
-@ImportResource({ "classpath:webSecurityConfig.xml" })
 public class WebConfig extends WebMvcConfigurerAdapter {
  
     public WebConfig() {
