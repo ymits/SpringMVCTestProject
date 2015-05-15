@@ -1,5 +1,6 @@
 ■プロトタイプjava
 初期化
 spring session(タイムアウト処理)
+@IgnoreSessionUpdate作成
 
 java1.8にあげる(tomcat8 + servlet 3.0)
