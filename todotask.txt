@@ -1,7 +1,5 @@
 ■プロトタイプjava
 初期化
 spring session(タイムアウト処理)
-spring websocket(未認証時に接続出来なくさせる)
 
-websocketを含めたsession管理(リアルレートの認証制御)
 java1.8にあげる(tomcat8 + servlet 3.0)
