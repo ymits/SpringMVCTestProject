@@ -1,4 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java/my/cool/app/doc/Swagger2Config.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TokenStringGenerator.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenCheck.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenException.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenInfo.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenInfoStore.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenInterceptor.java=UTF-8
+encoding//src/main/java/my/cool/app/token/TransactionTokenType.java=UTF-8
 encoding//src/main/webapp/test.html=UTF-8
 encoding/todotask.txt=UTF-8

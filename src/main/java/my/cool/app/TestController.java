@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import my.cool.app.token.TransactionTokenCheck;
+import my.cool.app.token.TransactionTokenType;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,12 +43,14 @@ public class TestController {
 		return results;
     }
 	
+	@TransactionTokenCheck(value="test", type=TransactionTokenType.BEGIN)
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Test show(@PathVariable String id) {
         return new Test();
     }
 	
+	@TransactionTokenCheck(value="test", type=TransactionTokenType.CHECK)
 	@RequestMapping(method=RequestMethod.PUT)
 	public Test create(@RequestBody Test test) {
 		System.out.println("test:"+test);

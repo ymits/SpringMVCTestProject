@@ -51,6 +51,7 @@
 </div>
 <script>
 var _data = {"valueInt":1,"valueBoolean":true,"valueDate":1431583886542,"valueEnum":"VALUE2"};
+var token;
 $("#find").click(function(){
 	$.get("api/test").done(function(data){
 		console.log(data);
@@ -59,9 +60,10 @@ $("#find").click(function(){
 	});
 });
 $("#findOne").click(function(){
-	$.get("api/test/aaa").done(function(data){
+	$.get("api/test/aaa").done(function(data, textStatus, jqXHR){
 		console.log(data);
 		_data = data;
+		token = jqXHR.getResponseHeader('X-TRANSACTION-TOKEN');
 	}).fail(function(jqXHR, textStatus, errorThrown) {
 		console.log("fail:" + textStatus);
 	});
@@ -70,6 +72,7 @@ $("#create").click(function(){
 	$.ajax({
 		url:"api/test", 
 		type:"PUT",
+		headers: {'X-TRANSACTION-TOKEN': token},
 		data:JSON.stringify(_data), 
 		contentType: "application/json; charset=utf-8",
 		dataType: "json"}).fail(function(jqXHR, textStatus, errorThrown) {
