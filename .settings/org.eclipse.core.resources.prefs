@@ -7,5 +7,6 @@ encoding//src/main/java/my/cool/app/token/TransactionTokenInfo.java=UTF-8
 encoding//src/main/java/my/cool/app/token/TransactionTokenInfoStore.java=UTF-8
 encoding//src/main/java/my/cool/app/token/TransactionTokenInterceptor.java=UTF-8
 encoding//src/main/java/my/cool/app/token/TransactionTokenType.java=UTF-8
+encoding//src/main/resources/i18n/message_ja.properties=UTF-8
 encoding//src/main/webapp/test.html=UTF-8
 encoding/todotask.txt=UTF-8
